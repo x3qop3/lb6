@@ -1,21 +1,85 @@
-
-.fields input{
-  margin: 10px;
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
-.startButton button{
-  margin: 10px 10px 10px 10px;
-  height: 30px;
-  width: 80px;
+body{
+  background-color: rgb(255, 235, 235);
+}
+.parent{
+  width: 23%;
+  height: 400px;
+  background-color: rgb(255, 255, 255);
+  margin: auto;
+  margin-top: 10%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: flex;
+  flex-direction: column;
 }
 
-.timerView input{
-  height: 30px;
-  width: 30px;
-  margin: 5px;
+
+#seconds{
+  display: block;
+  padding-left: 8px;
+  margin: 0 auto;
+  margin-top: 40px;
+  width: 230px;
+  height: 40px;
+  font-size: 20px;
+  color:#2793e6;
+  border: none;    
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#text{
+  padding-left: 8px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 40px; 
+  width: 230px;
+  height: 40px;
+  font-size: 20px;
+  color:#2793e6;
+  border: none;    
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#currentTime{
-  height: auto;
-  width: auto;
+.buttonBlock{
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 42px;
 }
+
+.button{
+text-transform: uppercase;
+width: 70px;
+height: 30px;
+margin-left: 4px;
+font-size: 16px;
+background-color: #2793e6;
+color: white;
+border: none;
+}
+
+.button:hover{
+  opacity: 0.8;
+}
+
+
+#status{
+  display: block;
+  margin: 0 auto;
+  font-size: 50px;
+  color:#2793e6;
+}
+
+h1{
+  
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  color:#2793e6;
+}
+
+

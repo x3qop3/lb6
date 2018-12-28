@@ -1,110 +1,115 @@
 class Timer {
-    constructor(countTime,callback) {
-      this.starttimer = false;
-      this.stoptimer = false;
-      this.pausetimer = false;
-      this.resettimer = false;
-      this.currentTime = 0;
-      this.remainedTime = 0;
-      this.notification = callback; 
-      this.temp = false;
-      this.constTime;
-      this.check = true;
-    }
-  
-    start() {
-      if(!this.starttimer)
-      {
-        if(this.check == true)
-        {
-          this.constTime = document.getElementById('time').value;
-          this.check = false;
-        }
-        this.starttimer = true;
-        this.resettimer = false;
-        this.currentTime = document.getElementById('time').value;
+  constructor(inputEl,callback) {
+    this.paused = false;
+    this.started = false;
+    this.startedx2=false;
+    this.stopped = true;
+    this.currentCount = 0 ;
+    this.running = false;
+    this.inputEl = inputEl;
+    this.callback=callback;
+    this.interval = 1000;
+    this.intervalx2=500;
+    this.maxCount = 0;
+    this.inputText = document.getElementById("text");
+  }
 
-        if((this.remainedTime != 0) && (this.pausetimer == true))
-        {
-          this.pausetimer = false;
-          this.waitTime(this.remainedTime);
-        }
-        else if(this.stoptimer == true)
-        {
-          this.stoptimer = false;
-          this.starttimer = false;
-          this.pausetimer = false;
-          this.start();
-        }
-        else if(this.starttimer == true)
-        {
-          this.currentTime = document.getElementById('time').value;
-          this.waitTime(this.currentTime);
-        }/*else if(this.resettimer == true)
-        {
-          this.resettimer = false;
-          this.waitTime(this.constTime);
-        }*/
-      }
-    }
-   
-    waitTime(currentTime){ 
-      if((currentTime >= 0) && (!this.pausetimer) && (this.starttimer) && (!this.stoptimer))
-      {
-        document.getElementById('sec').value = currentTime;
-        currentTime--;
-        setTimeout(() => this.waitTime(currentTime), 1000); 
-        this.remainedTime = currentTime;    
-      }
-      else if(currentTime < 0)
-      {
-        notification.call();
-      }
+  start() {
+    if (this.stopped) {
+      this.started = true;
+      this.startedx2=false;
+      this.paused = false;
+      this.stopped = false;
+      this.currentCount = Number(this.inputEl.value);
+      this.loop();
+      this.running = true;
     }
 
-   
+    this.paused = false;
+  }
 
-    pause() {
-      if(this.stoptimer == false && this.resettimer == false)
-      {
-       this.pausetimer = true;
-       this.starttimer = false;
-      }
+  startx2(){
+    if (this.stopped) {
+      this.startedx2=true;
+      this.started = false;
+      this.paused = false;
+      this.stopped = false;
+      this.currentCount = Number(this.inputEl.value);
+      this.loopx2();
+      this.running = true;
     }
-  
-    stop() {
-      if(this.pausetimer == false && this.resettimer == false)
-      {
-        this.stoptimer = true;
-        this.starttimer = false;
-        this.currentTime = 0;
-        document.getElementById('sec').value = this.currentTime;
-      }
-    }
-  
-    reset() {
-      if(this.stoptimer == false && this.pausetimer == false)
-      {
-      this.starttimer = false;
-      this.resettimer = true;
-      this.currentTime = this.constTime;
-      }
+
+    this.paused = false;
+  }
+
+  pause() {
+    this.paused = true;
+  }
+
+  stop() {
+    this.paused = false;
+    this.started = false;
+    this.startedx2=false;
+    this.stopped = true;
+    this.running = false;
+    this.currentCount = 0;
+  }
+
+  update(item) {
+    document.getElementById("status").innerHTML = item;    
+    --this.currentCount;
+
+    if (this.currentCount < 0) {
+      this.callback.call();      
+      this.stop();
     }
   }
 
-  function w(){}
+  reset() {
+    this.currentCount = Number(this.inputEl.value);
 
-  function notification()
-  {
-    let node = document.getElementById("text").value;
-    alert(node);
+    document.getElementById("status").innerHTML = this.currentCount;
   }
+
+  loop() {
+   
+    if (!this.stopped) {
+      if (!this.paused) {
+        this.update(this.currentCount);
+      }
+
+      setTimeout(() => this.loop(), this.interval);
+    }
+  }
+
+  loopx2(){
+    
+    if (!this.stopped) {
+      if (!this.paused) {
+        this.update(this.currentCount);
+      }
+
+      setTimeout(() => this.loopx2(), this.intervalx2);
+    }
+  
+  }
+
+}
+
+
+function alertText(){
+  let inputText = document.getElementById("text");
+  let word = inputText.value;
+  alert(word);
+}
 
 window.onload = function() {  
-  const time = new Timer(document.getElementById('time'), notification);
-  document.getElementById("start").onclick = () => time.start();
-  document.getElementById("pause").onclick = () => time.pause();
-  document.getElementById("stop").onclick = () => time.stop();
-  document.getElementById("reset").onclick = () => time.reset();
-};
 
+  let inputEl = document.getElementById("seconds");
+  const lol = new Timer(inputEl,alertText);
+  document.getElementById("setup").onclick = () => lol.start();
+  document.getElementById("reset").onclick = () => lol.reset();
+  document.getElementById("pause").onclick = () => lol.pause();
+  document.getElementById("stop").onclick = () => lol.stop();
+  document.getElementById("startx2").onclick =() => lol.startx2();
+};
